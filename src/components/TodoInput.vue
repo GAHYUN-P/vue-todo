@@ -26,7 +26,8 @@ export default {
             if(this.newTodoItem !==""){
                 // 인풋 박스에 입력된 텍스트의 앞뒤 공백 문자열 제거
                 var value = this.newTodoItem && this.newTodoItem.trim();
-                localStorage.setItem(value, value);
+                // 이벤트 전달, value 객체를 인자 값으로 전달
+                this.$emit('addTodo', value)
                 // 인풋 박스의 입력 값을 초기화
                 this.clearInput();
             }
