@@ -28,7 +28,7 @@ export default {
                 var value = this.newTodoItem && this.newTodoItem.trim();
                 localStorage.setItem(value, value);
                 // 인풋 박스의 입력 값을 초기화
-                this.clearInput()
+                this.clearInput();
             }
         },
         clearInput() {
