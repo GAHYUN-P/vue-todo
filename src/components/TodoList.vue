@@ -1,15 +1,19 @@
 <template>
   <section>
-      <!-- v-for로 뷰 데이터의 아이템 개수만큼 화면에 표시하기 -->
-      <!-- index는 v-for 디렉티브에서 기본적으로 제공하는 변수 -->
-      <!-- v-for 디렉티브로 반복한 요소는 모두 뷰에서 내부적으로 인덱스를 부여함 -->
-      <li v-for="(todoItem, index) in propsdata" :key="todoItem" class="shadow">
-        <i class="checkBtn fas fa-check" aria-hidden="true"></i>
-        {{ todoItem }}
-        <span class="removeBtn" type="button" @click="removeTodo(todoItem, index)">
-          <i class="far fa-trash-alt" aria-hidden="true"></i>
-        </span>
-      </li>
+      <!-- transition-group태그는 목록에 애니메이션을 추가할 때 사용되는 태그 -->
+      <transition-group name="list" tag="ul">
+        <!-- v-for로 뷰 데이터의 아이템 개수만큼 화면에 표시하기 -->
+        <!-- index는 v-for 디렉티브에서 기본적으로 제공하는 변수 -->
+        <!-- v-for 디렉티브로 반복한 요소는 모두 뷰에서 내부적으로 인덱스를 부여함 -->
+        <!-- :key는 v-bind:key를 간략하게 표현한 것 -->
+        <li v-for="(todoItem, index) in propsdata" :key="todoItem" class="shadow">
+          <i class="checkBtn fas fa-check" aria-hidden="true"></i>
+          {{ todoItem }}
+          <span class="removeBtn" type="button" @click="removeTodo(todoItem, index)">
+            <i class="far fa-trash-alt" aria-hidden="true"></i>
+          </span>
+        </li>
+      </transition-group>
   </section>
 </template>
 
@@ -21,10 +25,7 @@ export default {
 
     methods: {
         removeTodo(todoItem, index) {
-            // 로컬스토리지에서 지우기
-            localStorage.removeItem(todoItem);
-            // index부터 1개 삭제
-            this.todoItems.splice(index, 1);
+            this.$emit('removeTodo', todoItem, index);
         }
     }
 }

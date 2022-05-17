@@ -5,8 +5,10 @@
     <!-- 할일 추가 버튼을 클릭했을 때 App 컴포넌트로 이벤트를 전달할 수 있게 v-on 디렉티브를 추가 -->
     <TodoInput v-on:addTodo="addTodo"></TodoInput>
     <!-- props 전달 -->
-    <TodoList v-bind:propsdata="todoItems"></TodoList>
-    <TodoFooter></TodoFooter>
+    <TodoList v-bind:propsdata="todoItems" @removeTodo="removeTodo"></TodoList>
+    <!-- 하위 컴포넌트인 TodoFooter에서 발생시킬 이벤트가 removeAll -->
+    <!-- 상위 컴포넌트인 App에서 받아 실행시킬 메서드가 clearAll -->
+    <TodoFooter v-on:removeAll="clearAll"></TodoFooter>
   </div>
 </template>
 
@@ -40,7 +42,18 @@ export default {
       addTodo(todoItem) {
         localStorage.setItem(todoItem, todoItem);
 			  this.todoItems.push(todoItem);
-      }
+      },
+
+      removeTodo(todoItem, index) {
+        localStorage.removeItem(todoItem);
+        // index부터 1개 삭제
+        this.todoItems.splice(index, 1);
+      },
+      
+      clearAll() {
+        localStorage.clear();
+        this.todoItems=[];
+      },
     },
 
     components: {
